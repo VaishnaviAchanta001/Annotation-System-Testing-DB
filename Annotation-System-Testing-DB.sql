@@ -1,8 +1,8 @@
-#Step 1: Create the Database
+--Step 1: Create the Database
 CREATE DATABASE TestCaseDB;
 USE TestCaseDB;
-#Step 2: Create Tables for System Testing
-#Test Cases Table
+--Step 2: Create Tables for System Testing
+--Test Cases Table
 CREATE TABLE TestCases (
     TestCaseID INT PRIMARY KEY AUTO_INCREMENT,
     Name VARCHAR(255) NOT NULL,
@@ -11,14 +11,14 @@ CREATE TABLE TestCases (
     ImpactLevel ENUM('Low', 'Medium', 'High') NOT NULL DEFAULT 'Medium',
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-#Test Versions Table
+--Test Versions Table
 CREATE TABLE TestVersions (
     VersionID INT PRIMARY KEY AUTO_INCREMENT,
     VersionNumber VARCHAR(20) NOT NULL,  
     ReleaseDate DATE,
     SystemStatus ENUM('Stable', 'Unstable') DEFAULT 'Stable'
 );
-#Test Executions Table
+--Test Executions Table
 CREATE TABLE TestExecutions (
     ExecutionID INT PRIMARY KEY AUTO_INCREMENT,
     TestCaseID INT,
@@ -29,7 +29,7 @@ CREATE TABLE TestExecutions (
     FOREIGN KEY (TestCaseID) REFERENCES TestCases(TestCaseID),
     FOREIGN KEY (VersionID) REFERENCES TestVersions(VersionID)
 );
-#System-Wide Failure Trends
+--System-Wide Failure Trends
 CREATE TABLE FailureTrends (
     TrendID INT PRIMARY KEY AUTO_INCREMENT,
     TestCaseID INT,
@@ -39,7 +39,7 @@ CREATE TABLE FailureTrends (
 );
 ALTER TABLE TestCases MODIFY COLUMN ImpactLevel ENUM('Low', 'Medium', 'High', 'Critical');
 
--- Step 6: Insert Test Cases (45+ test cases)
+-- Step 3: Insert Test Cases (45+ test cases)
 INSERT INTO TestCases (Name, Description, Category, ImpactLevel) VALUES
 ('Create Polygon', 'Verify user can create a polygon', 'Functional', 'High'),
 ('Rotate Polygon', 'Verify user can rotate a polygon', 'Functional', 'Medium'),
@@ -71,7 +71,7 @@ INSERT INTO TestCases (Name, Description, Category, ImpactLevel) VALUES
 ('Logout', 'Ensure users can log out successfully', 'Authentication', 'Medium'),
 ('View Version History', 'Check if users can view change history of datasets', 'Functional', 'Low'),
 ('Drag and Drop', 'Verify drag-and-drop functionality for files and objects', 'UI/UX', 'Medium');
--- Step 7: Insert Versions
+-- Step 4: Insert Versions
 INSERT INTO TestVersions (VersionNumber, ReleaseDate) VALUES
 ('v1.0', '2024-01-01'),
 ('v2.0', '2024-02-01'),
@@ -83,7 +83,7 @@ INSERT INTO TestVersions (VersionNumber, ReleaseDate) VALUES
 ('v8.0', '2024-08-01'),
 ('v9.0', '2024-09-01'),
 ('v10.0', '2024-10-01');
--- Step 8: Implement System Testing Procedure
+-- Step 5: Implement System Testing Procedure
 DELIMITER $$
 CREATE PROCEDURE CheckSystemStability(IN CurrVersionID INT)
 BEGIN
@@ -100,13 +100,13 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
--- Step 9: Run System Testing for Each Version
+-- Step 6: Run System Testing for Each Version
 CALL CheckSystemStability(6);
 CALL CheckSystemStability(7);
 CALL CheckSystemStability(8);
 CALL CheckSystemStability(9);
 CALL CheckSystemStability(10);
--- Step 10: Retrieve All Unstable Versions
+-- Step 7: Retrieve All Unstable Versions
 SELECT VersionNumber, SystemStatus FROM TestVersions WHERE SystemStatus = 'Unstable';
 -- Retrieve All Unstable Versions
 
